@@ -1,0 +1,16 @@
+#!/bin/bash
+
+############################################## About Author #########################################
+# Created by: Alsamman M. Alsamman                                                                  #
+# Emails: smahmoud [at] ageri.sci.eg or A.Alsamman [at] cgiar.org or SammanMohammed [at] gmail.com  #
+# License: MIT License - https://opensource.org/licenses/MIT                                        #
+# Disclaimer: The script comes with no warranty, use at your own risk                               #
+# This script is not intended for commercial use                                                    #
+#####################################################################################################
+
+# add all selected files to a text file
+touch /tmp/nautilus_vlc_playlist.m3u
+# create a playlist for VLC from selected files in Nautilus
+echo -e "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" > new_playlist.m3u
+# echo to zenity
+echo " New playlist was created in the current folder" | zenity --text-info --title="Playlist Path" --width=500 --height=100

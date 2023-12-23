@@ -1,0 +1,29 @@
+#!/bin/bash
+
+############################################## About Author #########################################
+# Created by: Alsamman M. Alsamman                                                                  #
+# Emails: smahmoud [at] ageri.sci.eg or A.Alsamman [at] cgiar.org or SammanMohammed [at] gmail.com  #
+# License: MIT License - https://opensource.org/licenses/MIT                                        #
+# Disclaimer: The script comes with no warranty, use at your own risk                               #
+# This script is not intended for commercial use                                                    #
+#####################################################################################################
+
+
+# This script adds the filename as the last column
+
+
+echo -e "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | while read file
+do
+
+filename=$(basename $file)
+filename=$(echo $filename | cut -d'.' -f1)
+filedir=$(dirname "$file")
+
+if [ -f "$filedir/$filename.bib" ]; then
+    pandoc -f latex -t odt -o "$filedir/$filename.odt" $file  --bibliography=$filename.bib
+else
+    pandoc -f latex -t odt -o "$filedir/$filename.odt" $file
+fi
+# convert odg to word
+libreoffice --headless --convert-to docx "$filedir/$filename.odt"
+done
