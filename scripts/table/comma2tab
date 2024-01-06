@@ -12,17 +12,15 @@
 #TOOL INPUT > OUT 2>error
 #################
 
-# remove duplicate lines by using first column
-# scriptname is
+# convert comma separated file to tab separated file
 
 echo -e "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | while read line
 do
 if [ ! -z "$line" -a "$line" != " " ]; then
 
 filename="$line"
-
-    # remove duplicate lines by using first column
-    awk '!seen[$1]++' $filename > $filename.tmp && mv $filename.tmp $filename\_"uniq"
-
+# filename without extension
+filename_no_ext="${filename%.*}"
+sed 's/,/\t/g' $filename > $filename_no_ext".tsv"
 fi
 done 

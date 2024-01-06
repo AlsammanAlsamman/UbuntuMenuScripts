@@ -1,4 +1,5 @@
-#
+#!/bin/bash
+
 # update /home/samman/.local/share/nautilus/scripts
 sourceFolder="/home/samman/Documents/MyGitHub/UbuntuMenuScripts/scripts"
 # make all files in sourceFolder executable

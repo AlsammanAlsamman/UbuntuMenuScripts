@@ -1,0 +1,53 @@
+#!/bin/bash
+
+############################################## About Author #########################################
+# Created by: Alsamman M. Alsamman                                                                  #
+# Emails: smahmoud [at] ageri.sci.eg or A.Alsamman [at] cgiar.org or SammanMohammed [at] gmail.com  #
+# License: MIT License - https://opensource.org/licenses/MIT                                        #
+# Disclaimer: The script comes with no warranty, use at your own risk                               #
+# This script is not intended for commercial use                                                    #
+#####################################################################################################
+
+
+################# To print error
+#TOOL INPUT > OUT 2>error
+#################
+
+#Activate Conda
+#eval "$(conda shell.bash hook)"
+#conda activate base
+
+# check if there is a scriptconfig file
+if [ ! -f "scriptconfig" ]; then
+    echo "scriptconfig file not found!"
+    # create a scriptconfig file
+    touch scriptconfig
+    echo "columnNumber=1" >> scriptconfig
+    exit 1
+fi
+
+
+# read the scriptconfig file
+targetScript="columnFactorize.r"
+Compiler="Rscript"
+variablePath="AlsammanUbuntuMenuScriptsPath"
+ScriptSubFolder=Functions/
+
+#### Prepare the script full path
+# get the column number from the scriptconfig file
+columnNumber=$(grep -oP '(?<=columnNumber=).*' scriptconfig)
+# get the environment variable of $AlsammanUbuntuMenuScriptsPath from ~/.bashrc
+AlsammanUbuntuMenuScriptsPath=$(grep -oP '(?<='$variablePath'=).*' ~/.bashrc)
+scriptFullPath=$AlsammanUbuntuMenuScriptsPath$ScriptSubFolder$targetScript
+# remove the quotes from the path
+scriptFullPath=$(sed -e 's/["'\'']//g' <<<"$scriptFullPath")
+####
+
+echo -e "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | while read line
+do
+if [ ! -z "$line" -a "$line" != " " ]; then
+
+$Compiler $scriptFullPath $line $line".factorized" $columnNumber
+
+fi
+done
