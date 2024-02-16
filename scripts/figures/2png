@@ -1,0 +1,39 @@
+#!/bin/bash
+
+############################################## About Author #########################################
+# Created by: Alsamman M. Alsamman                                                                  #
+# Emails: smahmoud [at] ageri.sci.eg or A.Alsamman [at] cgiar.org or SammanMohammed [at] gmail.com  #
+# License: MIT License - https://opensource.org/licenses/MIT                                        #
+# Disclaimer: The script comes with no warranty, use at your own risk                               #
+# This script is not intended for commercial use                                                    #
+#####################################################################################################
+
+
+################# To print error
+#TOOL INPUT > OUT 2>error
+#################
+
+mkdir OldFiles
+# convert files to png
+echo -e "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | while read line
+do
+if [ ! -z "$line" -a "$line" != " " ]; then
+    # remove new line character from the end of the string
+    line=$(echo $line)
+    # get extension
+    extension="${line##*.}"
+    # get base name
+    baseName=$(basename $line .$extension)
+    # create random name for the new file
+    newFile=$(date +%s%N)
+    # convert to png
+    convert $line $newFile.png
+    # move the old file to OldFiles
+    mv $line OldFiles
+    # move the new file to the old file name
+    mv $newFile.png $baseName.png
+    
+    # to report 
+    echo "Converted $line to $newFile.png" >> file_conversion_report.txt
+fi
+done

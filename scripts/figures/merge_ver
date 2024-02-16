@@ -1,0 +1,20 @@
+#!/bin/bash
+
+############################################## About Author #########################################
+# Created by: Alsamman M. Alsamman                                                                  #
+# Emails: smahmoud [at] ageri.sci.eg or A.Alsamman [at] cgiar.org or SammanMohammed [at] gmail.com  #
+# License: MIT License - https://opensource.org/licenses/MIT                                        #
+# Disclaimer: The script comes with no warranty, use at your own risk                               #
+# This script is not intended for commercial use                                                    #
+#####################################################################################################
+
+
+filesPath="$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"
+
+# remove new line character from the end of the string
+filesPath=$(echo $filesPath)
+# create random name for the new file
+newFile=$(date +%s%N)
+# merge verticallly and horizontally
+convert $filesPath -append $newFile.png
+
